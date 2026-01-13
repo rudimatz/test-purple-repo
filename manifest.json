@@ -1,0 +1,33 @@
+{
+  "publications": [
+    {
+      "rfcNumber": 10101,
+      "files": [
+        {
+          "type": "xml",
+          "path": "final/original.xml"
+        },
+        {
+          "type": "txt",
+          "path": "final/contents.txt"
+        },
+        {
+          "type": "html",
+          "path": "final/differently-named.html"
+        },
+        {
+          "type": "pdf",
+          "path": "final/contents.txt.pdf"
+        },
+        {
+          "type": "json",
+          "path": "stuff.json"
+        },
+        {
+          "type": "notprepped",
+          "path": "final/notprepped"
+        }
+      ]
+    }
+  ]
+}
