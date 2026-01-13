@@ -1,0 +1,1421 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<!-- <?xml version="1.0" encoding="UTF-8"?> -->
+<!-- edited with XMLSPY v5 rel. 3 U (http://www.xmlspy.com)
+     by Daniel M Kohn (private)
+-->
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd">
+
+
+<?rfc toc="yes"?>
+<?rfc rfcedstyle="yes"?>
+<?rfc subcompact="no"?>
+<?rfc symrefs="yes"?>
+
+<rfc ipr="trust200902" category="info" docName="draft-ietf-i2nsf-applicability-19">
+
+<front>
+    <title abbrev="I2NSF Applicability">
+	Applicability of Interfaces to Network Security Functions to Network-Based Security Services
+    </title>
+        
+    <author initials="J." surname="Jeong" fullname="Jaehoon Paul Jeong">
+        <organization abbrev="Sungkyunkwan University">
+		Department of Computer Science and Engineering
+        </organization>
+
+        <address>
+            <postal>
+                <street>Sungkyunkwan University</street>
+                <street>2066 Seobu-ro, Jangan-gu</street>
+                <city>Suwon</city> <region>Gyeonggi-do</region>
+                <code>16419</code>
+                <country>Republic of Korea</country>
+            </postal>
+            <phone>+82 31 299 4957</phone>
+            <facsimile>+82 31 290 7996</facsimile>
+            <email>pauljeong@skku.edu</email>
+            <uri>http://iotlab.skku.edu/people-jaehoon-jeong.php
+   	    </uri>
+        </address>
+    </author>
+
+    <author initials="S." surname="Hyun" fullname="Sangwon Hyun">
+        <organization abbrev="Myongji University">
+        Department of Computer Engineering
+        </organization>
+
+        <address>
+            <postal>
+                <street>Myongji University</street>
+                <street>116 Myongji-ro, Cheoin-gu</street>
+                <city>Yongin</city>
+                <code>17058</code>
+                <country>Republic of Korea</country>
+            </postal>
+            <phone>+82 31 330 6782</phone>
+            <email>shyun@mju.ac.kr</email>
+        </address>
+    </author>
+
+    <author initials="T." surname="Ahn" fullname="Tae-Jin Ahn">
+        <organization abbrev="KT">
+        KT
+        </organization>
+
+        <address>
+            <postal>
+                <street>70 Yuseong-ro, Yuseong-gu</street>
+                <city>Daejeon</city>
+                <code>34047</code>
+                <country>Republic of Korea</country>
+            </postal>
+            <phone>+82 42 870 8409</phone>
+            <email>taejin.ahn@kt.com</email>
+        </address>
+    </author>
+
+    <author initials="S." surname="Hares" fullname="Susan Hares">
+        <organization abbrev="Huawei">
+		Huawei 
+        </organization>
+
+        <address>
+            <postal>
+                <street>7453 Hickory Hill</street>
+                <city>Saline</city> <region>MI</region>
+                <code>48176</code>
+                <country>USA</country>
+            </postal>
+            <phone>+1-734-604-0332</phone>
+            <email>shares@ndzh.com</email>
+        </address>
+    </author>
+
+    <author initials="D." surname="Lopez" fullname="Diego R. Lopez">
+        <organization abbrev="Telefonica I+D">
+		Telefonica I+D
+		</organization>
+
+        <address>
+            <postal>
+                <street>Jose Manuel Lara, 9</street>
+                <city>Seville</city> <region></region>
+                <code>41013</code>
+                <country>Spain</country>
+            </postal>
+            <phone>+34 682 051 091</phone>
+            <email>diego.r.lopez@telefonica.com</email>
+        </address>
+    </author>
+ 
+    <date month="April" day="2" year="2025" /> 
+
+    <area>Security</area>
+
+    <workgroup>I2NSF Working Group</workgroup>
+       
+<!-- [rfced] Please insert any keywords (beyond those that appear in
+the title) for use on http://www.rfc-editor.org/rfcsearch.html. -->
+
+<keyword>Internet-Draft</keyword>       
+
+    <abstract>
+        <t>
+	This document describes the applicability of Interface to Network Security
+	Functions (I2NSF) to network-based security services in Network Functions 
+	Virtualization (NFV) environments, such as firewall, deep packet inspection, 
+	or attack mitigation engines.
+        </t>
+    </abstract>
+</front>
+
+<middle>
+
+<section anchor="section:Introduction" title="Introduction"> 
+	<t>
+    Interface to Network Security Functions (I2NSF) defines a framework and interfaces for interacting with Network Security Functions (NSFs). Note that an NSF is defined as software that provides a set of security-related services, such as (i) detecting unwanted activity, (ii) blocking or mitigating the effect of such unwanted activity in order to fulfill service requirements, and (iii) supporting communication stream integrity and confidentiality <xref target="RFC8329" />.
+	</t>
+	
+    <t>
+    The I2NSF framework allows heterogeneous NSFs developed by different security solution vendors to be used in the Network Functions Virtualization (NFV) environment <xref target="ETSI-NFV" /> by utilizing the capabilities of such NSFs through I2NSF interfaces such as Customer-Facing Interface <xref target="consumer-facing-inf-dm" /> and NSF-Facing Interface <xref target="nsf-facing-inf-dm" />.		
+	In the I2NSF framework, each NSF initially registers the profile of its own capabilities with the Security Controller (i.e., network operator management system <xref target="RFC8329" />) of the I2NSF system via the Registration Interface <xref target="registration-inf-dm" />. This registration enables an I2NSF User (i.e., network security administrator) to select and use the NSF to enforce a given security policy.	
+	Note that Developer's Management System (DMS) is management software that provides a vendor's security service software as a Virtual Network Function (VNF) in an NFV environment (or middlebox in the legacy network) as an NSF, and registers the capabilities of an NSF into Security Controller via Registration Interface for a security service <xref target="RFC8329" />.	
+	</t>
+	
+	<t>
+	Security Controller maintains the mapping between a capability and an NSF, so it can perform to translate a high-level security policy received from I2NSF User to a low-level security policy configured and enforced in an NSF <xref target="SPT" />. Security Controller can monitor the states and security attacks in NSFs through NSF monitoring <xref target="nsf-monitoring-dm" />.
+        </t>
+
+	<t>
+    This document illustrates the applicability of the I2NSF framework with five different scenarios: 
+		
+	<list style="numbers"> 	
+		<t>
+		The enforcement of time-dependent web access control. 
+		</t>
+		
+		<t>
+		The support of intent-based security services through I2NSF and 
+		Security Policy Translator <xref target="SPT" />.
+		</t>
+		
+		<t>
+		The application of I2NSF to a Service Function Chaining (SFC) 
+		environment <xref target="RFC7665" />.
+		</t>
+
+		<t>
+		The integration of the I2NSF framework with Software-Defined 
+		Networking (SDN) <xref target="RFC7149" /> to provide different 
+		security functionality such as firewalls <xref target="opsawg-firewalls" />, 
+		Deep Packet Inspection (DPI), and Distributed Denial of Service
+		(DDoS) attack mitigation.		
+		</t>
+		
+		<t>
+		The use of Network Functions Virtualization (NFV) <xref target="ETSI-NFV" /> 
+		as a supporting technology.		
+		</t>		
+	</list>	
+
+	The implementation of I2NSF in these scenarios has allowed us to verify the applicability and effectiveness of the I2NSF framework for a variety of use cases.		
+	</t>
+	
+</section>
+
+<section anchor="section:Terminology" title="Terminology">
+    <t>
+	This document uses the terminology described in <xref target="RFC7665" />, <xref target="RFC7149" />, <xref target="ITU-T.Y.3300" />, <xref target="ONF-SDN-Architecture" />, <xref target="ITU-T.X.800" />, <xref target="NFV-Terminology" />, <xref target="RFC8329" />, and <xref target="RFC8329" />.
+    In addition, the following terms are defined below:
+    </t>
+    
+    <t>
+    <list style="symbols"> 
+        <t>
+		Centralized DDoS-attack Mitigation System: A centralized mitigator that can 
+		establish and distribute access control policy rules into network resources 
+		for efficient DDoS-attack mitigation.
+        </t>
+
+        <t>
+		Centralized Firewall System: A centralized firewall that can establish and 
+		distribute policy rules into network resources for efficient 
+		firewall management. 
+        </t>
+ 
+        <t>
+		Centralized VoIP Security System: A centralized security system that
+		handles the security functions required for VoIP and VoLTE services.
+        </t>
+
+        <t>
+		Firewall: A service function at the junction of two 
+		network segments that inspects some suspicious packets that attempt
+		to cross the boundary. It also rejects any packet that does not
+		satisfy certain criteria for, for example, disallowed port numbers
+		or IP addresses. 
+        </t>
+
+		<t>
+		Network Function: A functional block within a network infrastructure
+		that has well-defined external interfaces and well-defined functional 
+		behavior.
+		</t>
+
+		<t>
+		Network Functions Virtualization (NFV): A principle of separating 
+		network functions (or network security functions) from the hardware 
+		they run on by using virtual hardware abstraction.
+		</t>
+		
+		<t>
+		Network Security Function (NSF): Software that provides a set of
+        security-related services.  Examples include detecting unwanted
+        activity and blocking or mitigating the effect of such unwanted
+        activity in order to fulfill service requirements.  The NSF can
+        also help in supporting communication stream integrity and
+        confidentiality.
+		</t>		
+		
+        <t>
+        Security Policy Translator (SPT): Software that translates 
+		a high-level security policy for the Consumer-Facing Interface
+		into a low-level security policy for the NSF-Facing Interface 
+		<xref target="SPT" />.
+		The SPT is a core part of the Security Controller in the I2NSF system.
+		</t>
+ 		
+        <t>
+        Service Function Chaining (SFC): The execution of an ordered set 
+		of abstract service functions (i.e., network functions) according 
+		to ordering constraints that must be applied to packets, frames, 
+		and flows selected as a result of classification. The implied 
+		order may not be a linear progression as the architecture allows 
+		for SFCs that copy to more than one branch, and also allows for 
+		cases where there is flexibility in the order in which service 
+		functions need to be applied <xref target="RFC7665" />.
+		</t>
+
+        <t>
+		Software-Defined Networking (SDN): A set of techniques that 
+		enables to directly	program, orchestrate, control, and manage 
+		network resources, which facilitates the design, delivery and 
+		operation of network services in a dynamic and scalable manner 
+		<xref target="ITU-T.Y.3300" />.
+        </t>
+    </list>
+    </t>
+
+    <figure anchor="figure:i2nsf-security-services" title="I2NSF Framework">
+            <artwork><![CDATA[
+   +------------+
+   | I2NSF User |
+   +------------+
+          ^
+          | Consumer-Facing Interface
+          v
++-------------------+     Registration     +-----------------------+
+|Security Controller|<-------------------->|Developer's Mgmt System|
++-------------------+      Interface       +-----------------------+
+          ^                
+          | NSF-Facing Interface
+          v
+   +----------------+ +---------------+   +-----------------------+
+   |      NSF-1     |-|     NSF-2     |...|         NSF-n         |
+   |   (Firewall)   | | (Web Filter)  |   |(DDoS-Attack Mitigator)|
+   +----------------+ +---------------+   +-----------------------+
+            ]]></artwork>
+    </figure>
+
+</section>
+
+<section anchor="section:I2NSF-Framework" title="I2NSF Framework">
+
+    <t>
+        This section summarizes the I2NSF framework as defined in <xref target="RFC8329" />. As shown in <xref target="figure:i2nsf-security-services" />, an I2NSF User can use security functions by delivering high-level security policies, which specify security requirements that the I2NSF user wants to enforce, to the Security Controller via the Consumer-Facing Interface (CFI) <xref target="consumer-facing-inf-dm" />. 
+    </t>
+
+    <t>
+	    The Security Controller receives and analyzes the high-level security policies from an I2NSF User, and identifies what types of security capabilities are required to meet these high-level security policies. The Security Controller then identifies NSFs that have the required security capabilities, and generates low-level security policies for each of the NSFs so that the high-level security policies are eventually enforced by those NSFs <xref target="SPT" />. Finally, the Security Controller sends the generated low-level security policies to the NSFs via the NSF-Facing Interface (NFI) <xref target="nsf-facing-inf-dm" />.
+    </t>
+
+    <t>
+        As shown in <xref  target="figure:i2nsf-security-services" />, with a Developer's Management System (called DMS), developers (or vendors) inform the Security Controller of the capabilities of the NSFs through the Registration Interface (RI) <xref target="registration-inf-dm" /> for registering (or deregistering) the corresponding NSFs. Note that the lifecycle management of NSF code from DMS (e.g., downloading of NSF modules and testing of NSF code) is out of scope for I2NSF.
+    </t>
+
+    <t>
+	The Consumer-Facing Interface can be implemented with the Consumer-Facing Interface YANG data model <xref target="consumer-facing-inf-dm" /> using RESTCONF <xref target="RFC8040" /> which befits a web-based user interface for an I2NSF User to send a Security Controller a high-level security policy.		
+    Data models specified by YANG <xref target="RFC6020" /> describe high-level security policies to be specified by an I2NSF User. The data model defined in <xref target="consumer-facing-inf-dm" /> can be used for the I2NSF Consumer-Facing Interface. Note that an inside attacker at the I2NSF User can misuse the I2NSF system so that the network system under the I2NSF system is vulnerable to security attacks. To handle this type of threat, the Security Controller needs to monitor the activities of all the I2NSF Users as well as the NSFs through the I2NSF NSF monitoring functionality <xref target="nsf-monitoring-dm" />. Note that the monitoring of the I2NSF Users is out of scope for I2NSF.
+    </t>
+
+    <t>
+	The NSF-Facing Interface can be implemented with the NSF-Facing Interface YANG data model <xref target="nsf-facing-inf-dm" /> using NETCONF <xref target="RFC6241" /> which befits a command-line-based remote-procedure call for a Security Controller to configure an NSF with a low-level security policy.	
+    Data models specified by YANG <xref target="RFC6020" /> describe low-level security policies for the sake of NSFs, which are translated from the high-level security policies by the Security Controller. The data model defined in <xref target="nsf-facing-inf-dm" /> can be used for the I2NSF NSF-Facing Interface.
+    </t>
+
+    <t>
+	The Registration Interface can be implemented with the Registration Interface YANG data model <xref target="registration-inf-dm" /> using NETCONF <xref target="RFC6241" /> which befits a command-line-based remote-procedure call for a DMS to send a Security Controller an NSF's capability information.	
+	Data models specified by YANG <xref target="RFC6020" /> describe the registration of an NSF's capabilities to enforce security services at the NSF.		
+    The data model defined in <xref target="registration-inf-dm" /> can be used for the I2NSF Registration Interface.
+    </t>
+
+    <t>
+	The I2NSF framework can chain multiple NSFs to implement low-level security policies with the SFC architecture <xref target="RFC7665" />.	
+    </t>
+
+    <t>
+        The following sections describe different security service scenarios illustrating the applicability of the I2NSF framework.
+    </t>
+	
+	<figure anchor="wf-high-level-policy-xml-document"
+	 title="A High-level Security Policy XML Document of a Time-based Web Filter">
+
+<artwork><![CDATA[
+<i2nsf-cfi-policy
+ xmlns="urn:ietf:params:xml:ns:yang:ietf-i2nsf-cons-facing-interface">
+  <name>sns_access</name>
+  <rules>
+    <name>block_sns_access_during_operation_time</name>
+    <condition>
+      <firewall>
+        <source>employees</source>
+      </firewall>
+      <url-category>
+        <url-name>sns-websites</url-name>
+      </url-category>
+      <context>
+        <time>
+          <start-date-time>2025-03-11T09:00:00.00Z</start-date-time>
+          <end-date-time>2025-12-31T18:00:00.00Z</end-date-time>
+          <period>
+            <start-time>09:00:00Z</start-time>
+            <end-time>18:00:00Z</end-time>
+            <day>monday</day>
+            <day>tuesday</day>
+            <day>wednesday</day>
+            <day>thursday</day>
+            <day>friday</day>
+          </period>
+          <frequency>weekly</frequency>
+        </time>
+      </context>
+    </condition>
+    <action>
+      <primary-action>
+        <action>drop</action>
+      </primary-action>
+    </action>
+  </rules>
+</i2nsf-cfi-policy>
+   ]]></artwork>
+    </figure>
+
+	<figure anchor="wf-low-level-policy-xml-document-of-a-firewall" 
+	 title="A Low-level Security Policy XML Document of a Firewall NSF for a Time-based Web Filter">
+	
+<artwork><![CDATA[
+<i2nsf-security-policy 
+xmlns="urn:ietf:params:xml:ns:yang:ietf-i2nsf-nsf-facing-interface">
+ <name>sns_access</name>
+ <rules>
+  <name>block_sns_access_during_operation_time</name>
+  <condition>
+   <ipv6>
+    <source-ipv6-network>2001:db8:1::/60</source-ipv6-network>
+   </ipv6>
+   <context>
+    <time>
+      <start-date-time>2025-03-11T09:00:00.00Z</start-date-time>
+      <end-date-time>2025-12-31T18:00:00.00Z</end-date-time>
+      <period>
+        <start-time>09:00:00Z</start-time>
+        <end-time>18:00:00Z</end-time>
+        <day>monday</day>
+        <day>tuesday</day>
+        <day>wednesday</day>
+        <day>thursday</day>
+        <day>friday</day>
+      </period>
+      <frequency>weekly</frequency>
+    </time>
+   </context>
+  </condition>
+  <action>
+   <advanced-action>
+    <content-security-control>
+      url-filtering
+    </content-security-control>
+   </advanced-action>
+  </action>
+ </rules>
+</i2nsf-security-policy>
+   ]]></artwork>
+    </figure>
+
+	<figure anchor="wf-low-level-policy-xml-document-of-a-web-filter" 
+	 title="A Low-level Security Policy XML Document of a Web Filter NSF for Time-based Web Filter">
+	
+<artwork><![CDATA[
+<i2nsf-security-policy 
+xmlns="urn:ietf:params:xml:ns:yang:ietf-i2nsf-nsf-facing-interface">
+ <name>sns_access</name>
+ <rules>
+  <name>block_sns_access_during_operation_time</name>
+  <condition>
+   <url-category>
+    <user-defined>https://www.example.com/</user-defined>
+    <user-defined>https://www.example.net/</user-defined>
+    <user-defined>https://www.example.org/</user-defined>
+   </url-category>
+  </condition>
+  <action>
+   <packet-action>
+    <egress-action>drop</egress-action>
+   </packet-action>
+  </action>
+ </rules>
+</i2nsf-security-policy>
+   ]]></artwork>
+    </figure>
+</section>
+
+<section anchor="section:Time-dependent-Web-Access-Control-Service" title="Time-dependent Web Access Control Service">
+
+	<t>
+    This service scenario assumes that an enterprise network administrator wants to control the employees' access to a particular Internet service (e.g., social networking service (SNS)) during business hours. The following is an example high-level security policy rule for a web filter that the administrator requests: Block the employees' access to SNS websites from 9 AM (i.e., 09:00) to 6 PM (i.e., 18:00) on weekdays (from Monday to Friday) from March 11, 2025 to December 31, 2025 by dropping their packets. <xref target="wf-high-level-policy-xml-document" /> is a high-level security policy XML document of a time-based web filter that is sent from the I2NSF User to the Security Controller via the Consumer-Facing Interface <xref target="consumer-facing-inf-dm" />.
+	</t>
+
+    <t>
+    The security policy name is "security_policy_for_blocking_sns" with the tag "name", and the security policy rule name is "block_access_to_sns_during_office_hours" with the tag "name". 
+	The filtering event has the time span where the filtering start time is the time "09:00:00Z" (i.e., 9:00AM) with the tag "start-time", and the filtering end time is the time "18:00:00Z" (i.e., 6:00PM) with the tag "end-time".
+	The filtering condition has the source target of "employees" with the tag "source", and the destination target of "sns-websites" with the tag "url-name".
+	</t>
+
+    <t>
+    A high-level security policy XML document in <xref target="wf-high-level-policy-xml-document" /> is
+    translated into two low-level security policy XML documents in 
+    <xref target="wf-low-level-policy-xml-document-of-a-firewall" /> and 
+    <xref target="wf-low-level-policy-xml-document-of-a-web-filter" /> by the Security Policy Translator
+    (SPT) <xref target="SPT" /> in the Security Controller.
+    These two low-level security policy XML documents are sent to a firewall NSF and a web filter
+    NSF, respectively, by the Security Controller via the NSF-Facing Interface <xref target="nsf-facing-inf-dm" />.
+    On one hand, a firewall NSF performs IP address and port number inspection, and time checking for a packet for
+    time-based web filtering.
+    On the other hand, a web filter NSF performs URL inspection for a packet for time-based web filtering.
+    </t>
+	
+	<t>
+	Assume that "employees" are IPv6 hosts whose IPv6 addresses are based on the prefix of 2001:db8:1::/60, as shown in <xref target="wf-low-level-policy-xml-document-of-a-firewall" />. 
+    Also, assume that "sns-websites" includes https://www.example.com, https://www.example.net, and https://www.example.org, as shown in <xref target="wf-low-level-policy-xml-document-of-a-web-filter" />.
+	</t>
+	
+	<t>
+	The source target can by translated by the SPT in the Security Controller to the IP addresses of computers (or mobile devices) used by the employees. Refer to <xref target="section:Intent-based-Security-Services" /> for the detailed description of the SPT.
+	The destination target can also be translated by the SPT to the actual websites corresponding to the symbolic website name "sns-websites", and then either each website's URL or the corresponding IP address(es) can be used by both a firewall and a web filter.  The action is to "drop" the packets satisfying the above condition with the tag "action".	
+    </t>
+	
+	<t>
+    After receiving the high-level security policy, the Security Controller identifies required security capabilities, e.g., IP address and port number inspection capabilities and URL inspection capability. 
+	In this scenario, it is assumed that the IP address and port number inspection capabilities are required to check whether a received packet is an HTTP-session packet from an employee, which is part of an HTTP session generated by the employee.  The URL inspection capability is required to check whether the target URL of a received packet is one of the target websites (i.e., www.example.com, www.example.net, and www.example.org) or not.	
+    </t>
+
+    <t>
+    The Security Controller maintains the security capabilities of each active NSF in the I2NSF system, which have been reported by the Developer's Management System via the Registration interface. Based on this information, the Security Controller identifies NSFs that can perform the IP address and port number inspection and URL inspection through the security policy translation in <xref target="section:Intent-based-Security-Services" />. In this scenario, it is assumed that a firewall NSF has the IP address and port number inspection capabilities and a web filter NSF has URL inspection capability.
+    </t>
+
+    <t>
+    The Security Controller may interoperate with an access control server in the enterprise network in order to retrieve the information (e.g., IP address in use, company identifier (ID), and role) of each employee that is currently using the network. Based on the retrieved information, the Security Controller generates a low-level security policy to check whether the source IP address of a received packet matches any one being used by an employee.
+	</t>
+	
+	<t>
+	In addition, a low-level security policy's rule (shortly, low-level security rule) for a firewall NSF should be able to determine that a received packet uses either the HTTP protocol without Transport Layer Security (TLS) <xref target="RFC8446" /> or the HTTP protocol with TLS as HTTPS.  A low-level security policy's rule for a web filter checks that the target URL field of a received packet is equal to one of the target SNS websites (i.e., www.example.com, www.example.net, and www.example.org), or that the destination IP address of a received packet is an IP address corresponding to one of the SNS websites.  Note that if HTTPS is used for an HTTP-session packet, the HTTP protocol header is encrypted, so the URL information may not be seen from the packet for the web filtering.  Thus, the IP address(es) corresponding to the target URL needs to be obtained from the certificate in TLS versions prior to 1.3 <xref target="RFC8446" /> or the Server Name Indication (SNI) in a TCP-session packet in TLS versions without the encrypted SNI <xref target="tls-esni" />.  Also, to obtain IP address(es) corresponding to a target URL, the DNS name resolution process can be observed through a packet capturing tool because the DNS name resolution will translate the target URL into IP address(es).  The IP addresses obtained through either TLS or DNS can be used by both a firewall and a web filter for whitelisting or blacklisting the TCP five-tuples of HTTP sessions.  
+	</t>
+	
+	<t>
+	Finally, the Security Controller sends the low-level security policy of the IP address and port number inspection to the firewall NSF and the low-level security policy for URL inspection to the web filter NSF.
+    </t>
+
+    <t>
+    The following describes how the time-dependent web access control service is enforced by the NSFs of firewall and web filter.
+
+        <list style="numbers">
+            <t>
+                An employee tries to access one of the target SNS websites (i.e., www.example.com, www.example.net, and www.example.org) during business hours, e.g., 10 AM.
+            </t>
+
+            <t>
+                The packet is forwarded from the employee's device to the firewall, and the firewall checks the source IP address and port number. Now the firewall identifies the received packet is an HTTP-session packet from the employee.
+            </t>
+
+            <t>
+                The firewall triggers the web filter to further inspect the packet, and the packet is forwarded from the firewall to the web filter. 
+				The SFC architecture <xref target="RFC7665" /> can be utilized to support such packet forwarding in the I2NSF framework.
+            </t>
+
+            <t>
+				The web filter checks the received packet's target URL field or its destination IP address corresponding to the target URL, and detects that the packet is being sent to a server with the target URL (e.g., www.example.com).  The web filter then checks that the current time is within business hours.  If so, the web filter drops the packet, and consequently the employee's access to one of the SNS websites (i.e., www.example.com, www.example.net, and www.example.org) during business hours is blocked.
+            </t>
+    	</list>
+	</t>
+
+	<t>
+
+    <figure anchor="figure:i2nsf-security-policy-translation" title="Security Policy Translation and Enforcement in I2NSF System">
+                <artwork><![CDATA[
+   +--------------------------------------------------+
+   |                    I2NSF User                    |
+   +------------------------+-------------------------+
+                            | Consumer-Facing Interface
+                            |
+                High-level Security Policy
+                            |
+   Security Controller      V
+   +------------------------+--------------------------------+
+   |  Security Policy       |                                |
+   |  Translator            V                                |
+   |  +---------------------+-----------------------------+  |
+   |  |                     |                             |  |
+   |  |                     V                             |  |
+   |  |               +-----+-----+          +----------+ |  |
+   |  |               |    Data   |          |Data Model| |  |
+   |  |               | Extractor |          |  Mapper  | |  |
+   |  |               +-----+-----+          +-----+----+ |  |
+   |  | Extracted Data from |              Mapping |      |  |
+   |  |   High-Level Policy V                Model V      |  |
+   |  |               +-----+-----+           +----+---+  |  |
+   |  |               |    Data   |<--------->| NSF DB |  |  |
+   |  |               | Converter |           +--------+  |  |
+   |  |               +-----+-----+                       |  |
+   |  |                     |  Required Data for          |  |
+   |  |                     V  Target NSFs                |  |
+   |  |            +--------+---------+                   |  |
+   |  |            | Policy Generator |                   |  |
+   |  |            +--------+---------+                   |  |
+   |  |                     |                             |  |
+   |  |                     V                             |  |
+   |  +---------------------+-----------------------------+  |
+   |                        |                                |
+   |                        V                                |
+   +------------------------+--------------------------------+
+                            | NSF-Facing Interface
+                            |
+                 Low-level Security Policy
+                            |
+                            V
+   +------------------------+-------------------------+
+   |                      NSF(s)                      |
+   +--------------------------------------------------+
+                ]]></artwork>
+	</figure>
+			
+    </t>
+
+</section>	
+
+<section anchor="section:Intent-based-Security-Services" title="Intent-based Security Services">
+    <t>
+    I2NSF aims at providing intent-based security services to configure
+	specific security policies into NSFs with customer-friendly secuirty policies 
+	at a high level. For example, when an I2NSF User submits a high-level 
+	security policy (e.g., web filtering as shown 
+	in <xref target="wf-high-level-policy-xml-document" />) to the Security Controller, 
+	the Security Policy Tranlator (SPT) <xref target="SPT" /> in the Security
+	Controller will translate it into the correspondong two low-level security policies,
+	as shown in <xref target="wf-low-level-policy-xml-document-of-a-firewall" /> and
+    <xref target="wf-low-level-policy-xml-document-of-a-web-filter" />.
+	A security administrator using the I2NSF User can describe a security 
+	policy without the knowledge of the detailed information about subjects
+	(e.g., source and destination) and objects (e.g., web traffic) of the 
+	security policy's rule(s).
+	</t>
+	
+	<t>
+    <xref target="figure:i2nsf-security-policy-translation" /> shows the 
+	security policy	translation and enforcement in the I2NSF system 
+	<xref target="SPT" />.  As shown in 
+	<xref target="figure:i2nsf-security-policy-translation" />, an I2NSF 
+	User delivers a high-level security policy to the Security Controller using the 
+	Consumer-Facing Interface (denoted as CFI). The high-level security policy is 
+	translated by the SPT in the Security Controller into the corresponding 
+	low-level security policy (or policies) which is understandable by target NSF(s).
+    The Security Controller delivers the low-level security policy (or policies) to
+    the appropriate NSF(s) to enforce the policy's rule(s).
+	</t>
+
+    <t>
+    The SPT consists of four modules for security policy translations 
+	such as Data Model Mapper, Data Extractor, Data Converter, and
+    Policy Generator, as shown 
+	in <xref target="figure:i2nsf-security-policy-translation" />.
+    The Data Model Mapper creates a mapping model for mapping the
+    elements between the YANG data model of Consumer-Facing Interface
+    <xref target="consumer-facing-inf-dm" /> and
+    the YANG data model of NSF-Facing Interface <xref target="nsf-facing-inf-dm" />
+    for the automation of security policy translation. 
+    It stores the mapping model into the NSF Database (denoted as NSF DB).
+    </t>
+
+    <t>
+	The Data Extractor extracts data from a high-level security policy 
+	delivered by the I2NSF User. The data correspond to the leaf nodes 
+	in the YANG data model for the Consumer-Facing Interface.
+	In the high-level policy in <xref target="wf-high-level-policy-xml-document" />, 
+	the data are the tag values of a policy's "name", a rule's "name", "start-time", 
+	"end-time", a source's "source", a destination's "url-name", and "action". 
+    That is, the tag values are "security_policy_for_blocking_sns",
+    "block_access_to_sns_during_office_hours", 
+	"09:00:00Z", "18:00:00Z", "employees", "sns-websites", and "drop."
+    </t>
+	
+	<t>
+	The Data Converter converts the extracted high-level policy data received
+	from the Data Extractor into the corresponding low-level policy data.
+	The low-level policy data have the capability information of NSFs to be 
+	selected as target NSFs for the required security service enforcement 
+	specified by the high-level security policy. 
+	The tag values in the extracted high-level policy data are replaced 
+	with the tag values in the low-level policy data, which are the leaf 
+	nodes of the YANG data model for the NSF-Facing Interface (denoted as NFI).	
+	The value of each leaf node in CFI is translated into the value of the 
+	corresponding leaf node in NFI. For example, "security_policy_for_blocking_sns" of 
+	a policy's name in CFI (in <xref target="wf-high-level-policy-xml-document" />) 
+	is translated into "sns_access" of a policy's name in 
+	NFI (in <xref target="wf-low-level-policy-xml-document-of-a-firewall" />). 
+	The tag values of name, start-time, end-time, and action in
+	CFI are mapped into the same values of name, start-time, end-time, 
+	and content-security-control (under advanced-action) in NFI, as shown in
+    <xref target="wf-low-level-policy-xml-document-of-a-firewall" />.
+	However, the tag values of a source's source and a destination's url-name in 
+	CFI are translated into IP addresses
+    (in <xref target="wf-low-level-policy-xml-document-of-a-firewall" />) and
+    URLs (in <xref target="wf-low-level-policy-xml-document-of-a-web-filter" />),
+    respectively, for the sake of NFI. That is, "employees" of CFI is translated
+    into the IPv6 prefix "2001:db8:1::/60" for the sake of NFI. 
+    Also, "sns-websites" of CFI is translated into three URLs such as "www.example.com",
+    "www.example.net", and "www.example.org" for the sake of NFI. 
+    In addition to the data conversion, the Data Converter searches for appropriate
+    NSFs having capabilities corresponding to the leaf nodes of the YANG data model 
+	for NFI. For the data conversion and NSF search, an NSF DB can be consulted, 
+    as shown in <xref target="figure:i2nsf-security-policy-translation" />, because
+    the NSF DB has the capability information of NSFs that the DMS(s) registered 
+	with the Security Controller using the Registration Interface.
+	</t>
+		
+	<t>
+	The Policy Generator generates a low-level security policy corresponding 
+	to the low-level policy data made by the Data Converter per a target NSF(s).
+	That is, the Policy Generator can build such low-level security policy XML documents
+    like <xref target="wf-low-level-policy-xml-document-of-a-firewall" /> and 
+    <xref target="wf-low-level-policy-xml-document-of-a-web-filter" /> with the NSF DB 
+	because the NSF DB has the mapping information between the CFI YANG data 
+	model and the NFI YANG data model.
+	</t>
+	
+	<t>
+	Therefore, by allowing the I2NSF User to express its security policy 
+	without knowing the detailed information of entities for security policies,
+	the I2NSF can efficiently support the intent-based security services with 
+	the help of the security policy translator along with the NSF DB.
+	</t>
+	
+	<t>
+
+    <figure anchor="figure:i2nsf-with-sfc" title="An I2NSF Framework with SFC">
+            <artwork><![CDATA[
+   +------------+
+   | I2NSF User |
+   +------------+
+          ^
+          | Consumer-Facing Interface
+          v
++-------------------+     Registration     +-----------------------+
+|Security Controller|<-------------------->|Developer's Mgmt System|
++-------------------+      Interface       +-----------------------+
+      ^       ^
+      |       | NSF-Facing Interface
+      |       |-------------------------
+      |                                |
+      | NSF-Facing Interface           | 
++-----v-----------+             +------v-------+         
+|  +-----------+  |      ------>|     NSF-1    |
+|  |Classifier |  |      |      |  (Firewall)  | 
+|  +-----------+  |      |      +--------------+
+|     +-----+     |<-----|      +--------------+
+|     | SFF |     |      |----->|     NSF-2    |
+|     +-----+     |      |      |     (DPI)    |
++-----------------+      |      +--------------+
+                         |             .
+                         |             .
+                         |             .
+                         |      +-----------------------+
+                         ------>|        NSF-n          |
+                                |(DDoS-Attack Mitigator)|
+                                +-----------------------+
+            ]]></artwork>
+	</figure>
+		
+	</t>
+
+</section>
+
+<section anchor="section:I2NSF-Framework-with-SFC" title="I2NSF Framework with SFC">
+    <t>
+        In the I2NSF architecture, an NSF can trigger an advanced security action (e.g., DPI or DDoS attack mitigation) on a packet based on the result of its own security inspection of the packet. For example, a firewall triggers further inspection of a suspicious packet with DPI. For this advanced security action to be fulfilled, the suspicious packet should be forwarded from the current NSF to the successor NSF. SFC <xref target="RFC7665" /> is a technology that enables this advanced security action by steering a packet with multiple service functions (e.g., NSFs), and this technology can be utilized by the I2NSF architecture to support the advanced security action. 
+    </t>
+
+    <t>
+        <xref target="figure:i2nsf-with-sfc" /> shows an I2NSF framework with the support of SFC. As shown in the figure, SFC generally requires classifiers and service function forwarders (SFFs); classifiers are responsible for determining which service function path (SFP) (i.e., an ordered sequence of service functions) a given packet should pass through, according to pre-configured classification rules, and SFFs perform forwarding the given packet to the next service function (e.g., NSF) on the SFP of the packet by referring to their forwarding tables. In the I2NSF architecture with SFC, the Security Controller can take responsibilities of generating classification rules for classifiers and forwarding tables for SFFs. By analyzing high-level security policies from I2NSF users, the Security Controller can construct SFPs that are required to meet the high-level security policies, generates classification rules of the SFPs, and then configures classifiers with the classification rules over NSF-Facing Interface so that relevant traffic packets can follow the SFPs. Also, based on the global view of NSF instances available in the system, the Security Controller constructs forwarding tables, which are required for SFFs to forward a given packet to the next NSF over the SFP, and configures SFFs with those forwarding tables over NSF-Facing Interface.
+    </t>
+	
+    <t>
+		To trigger an advanced security action in the I2NSF architecture, the current NSF appends metadata describing the security capability required to the suspicious packet via a network service header (NSH) <xref target="RFC8300" />.		
+		It then sends the packet to the classifier. Based on the metadata information, the classifier searches an SFP which includes an NSF with the required security capability, changes the SFP-related information (e.g., service path identifier and service index <xref target="RFC8300" />) of the packet with the new SFP that has been found, and then forwards the packet to the SFF. When receiving the packet, the SFF checks the SFP-related information such as the service path identifier and service index contained in the packet and forwards the packet to the next NSF on the SFP of the packet, according to its forwarding table.
+    </t>
+	
+    <t>
+	<figure anchor="figure:i2nsf-sdn-based-security-services" title="An I2NSF Framework with SDN Network">
+            <artwork><![CDATA[
+   +------------+
+   | I2NSF User |
+   +------------+
+          ^
+          | Consumer-Facing Interface
+          v
++-------------------+     Registration     +-----------------------+
+|Security Controller|<-------------------->|Developer's Mgmt System|
++-------------------+      Interface       +-----------------------+
+   ^     ^                
+   |     | NSF-Facing Interface
+   |     v
+   | +----------------+ +---------------+   +-----------------------+
+   | |      NSF-1     |-|     NSF-2     |...|         NSF-n         |
+   | |   (Firewall)   | |     (DPI)     |   |(DDoS-Attack Mitigator)|
+   | +----------------+ +---------------+   +-----------------------+
+   |
+   |
+   |                                                  SDN Network
++--|----------------------------------------------------------------+
+|  V NSF-Facing Interface                                           |
+|  +----------------+                                               |
+|  | SDN Controller |                                               |
+|  +----------------+                                               |
+|           ^                                                       |
+|           | SDN Southbound Interface                              |
+|           v                                                       |
+|      +--------+ +------------+ +--------+       +--------+        |
+|      |Switch-1|-|  Switch-2  |-|Switch-3|.......|Switch-m|        |
+|      |        | |(Classifier)| | (SFF)  |       |        |        |
+|      +--------+ +------------+ +--------+       +--------+        |
++-------------------------------------------------------------------+
+            ]]></artwork>
+	</figure>
+    </t>		
+</section>
+
+<section anchor="section:I2NSF-Framework-with-SDN" title="I2NSF Framework with SDN">
+	<t>
+	This section describes an I2NSF framework with SDN for I2NSF applicability and use cases, such as firewall, deep packet inspection, and DDoS-attack mitigation functions. SDN enables some packet filtering rules to be enforced in network forwarding elements (e.g., switch) by controlling their packet forwarding rules. By taking advantage of this capability of SDN, it is possible to optimize the process of security service enforcement in the I2NSF system. For example, for efficient firewall services, simple packet filtering can be performed by SDN forwarding elements (e.g., switches), and complicated packet filtering based on packet payloads can be performed by a firewall NSF. This optimized firewall using both SDN forwarding elements and a firewall NSF is more efficient than a firewall where SDN forwarding elements forward all the packets to a firewall NSF for packet filtering. This is because packets to be filtered out can be early dropped by SDN forwarding elements without consuming further network bandwidth due to the forwarding of the packets to the firewall NSF.
+    </t>
+
+    <t>
+        <xref target="figure:i2nsf-sdn-based-security-services" /> shows an I2NSF framework <xref target="RFC8329" /> with SDN networks to support network-based security services. In this system, the enforcement of security policy rules is divided into the SDN forwarding elements (e.g., a switch running as either a hardware middle box or a software virtual switch) and NSFs (e.g., a firewall running in a form of a VNF <xref target="ETSI-NFV" />). 
+Note that NSFs are created or removed by the NFV Management and Orchestration (MANO) <xref target="ETSI-NFV-MANO" />, performing the lifecycle management of NSFs as VNFs. Refer to <xref target="section:I2NSF-Framework-with-NFV" /> for the detailed discussion of the NSF lifecycle management in the NFV MANO for I2NSF.		
+For security policy enforcement (e.g., packet filtering), the Security Controller instructs the SDN Controller via NSF-Facing Interface so that SDN forwarding elements can perform the required security services with flow tables under the supervision of the SDN Controller.
+	</t>
+	
+    <t>
+        As an example, let us consider two different types of security rules: Rule A is a simple packet filtering rule that checks only the IP address and port number of a given packet, whereas rule B is a time-consuming packet inspection rule for analyzing whether an attached file being transmitted over a flow of packets contains malware. Rule A can be translated into packet forwarding rules of SDN forwarding elements and thus be enforced by these elements. In contrast, rule B cannot be enforced by forwarding elements, but it has to be enforced by NSFs with anti-malware capability. Specifically, a flow of packets is forwarded to and reassembled by an NSF to reconstruct the attached file stored in the flow of packets. The NSF then analyzes the file to check the existence of malware. If the file contains malware, the NSF drops the packets.
+    </t>
+
+    <t>
+        In an I2NSF framework with SDN, the Security Controller can analyze given security policy rules and automatically determine which of the given security policy rules should be enforced by SDN forwarding elements and which should be enforced by NSFs. If some of the given rules requires security capabilities that can be provided by SDN forwarding elements, then the Security Controller instructs the SDN Controller via NSF-Facing Interface so that SDN forwarding elements can enforce those security policy rules with flow tables under the supervision of the SDN Controller. Or if some rules require security capabilities that cannot be provided by SDN forwarding elements but by NSFs, then the Security Controller instructs relevant NSFs to enforce those rules.
+    </t>
+
+    <t>
+		The distinction between software-based SDN forwarding elements and NSFs, which can both run as VNFs, may be necessary for some management purposes in this system. 
+Note that an SDN forwarding element (i.e., switch) is a specific type of VNF rather than an NSF because an NSF is for security services rather than for packet forwarding. 			
+For this distinction, we can take advantage of the NFV MANO where there is a subsystem that maintains the descriptions of the capabilities each VNF can offer <xref target="ETSI-NFV-MANO" />. This subsystem can determine whether a given software element (VNF instance) is an NSF or a virtualized SDN switch. For example, if a VNF instance has anti-malware capability according to the description of the VNF, it could be considered as an NSF. A VNF onboarding system <xref target="VNF-ONBOARDING" /> can be used as such a subsystem that maintains the descriptions of each VNF to tell whether a VNF instance is for an NSF or for a virtualized SDN switch.
+	</t>
+
+    <t>
+    For the support of SFC in the I2NSF framework with SDN, as shown in <xref target="figure:i2nsf-sdn-based-security-services" />,
+    network forwarding elements (e.g., switch) can play the role of either 
+    SFC Classifier or SFF, which are explained in <xref target="section:I2NSF-Framework-with-SFC" />.
+    Classifier and SFF have an NSF-Facing Interface with Security Controller. This interface is used to update security service function chaining information for traffic flows.
+    For example, when it needs to update an SFP for a traffic flow in an SDN network, as shown in <xref target="figure:i2nsf-sdn-based-security-services" />, SFF (denoted as Switch-3) asks Security Controller to update the SFP for the traffic flow (needing another security service as an NSF) via NSF-Facing Interface. This update lets Security Controller ask Classifier (denoted as Switch-2) to update the mapping between the traffic flow and SFP in Classifier via NSF-Facing Interface.
+    </t>
+
+    <t>
+	The following subsections introduce three use cases from <xref target="RFC8192" /> for cloud-based security services: (i) firewall system, (ii) deep packet inspection system, and (iii) attack mitigation system.	
+    </t>
+
+    <section anchor="section:Firewall" title="Firewall: Centralized Firewall System">
+        <t>
+        A centralized network firewall can manage each network resource and apply common rules to individual network elements (e.g., switch). The centralized network firewall controls each forwarding element, and firewall rules can be added or deleted dynamically.
+        </t>
+
+		<t>
+		A time-based firewall can be enforced with packet filtering rules and a time span (e.g., work hours). 
+		With this time-based firewall, a time-based security policy can be enforced, as explained in
+		<xref target="section:Time-dependent-Web-Access-Control-Service" />. For example, employees at 
+		a company are allowed to access social networking service websites during lunch time or after work 
+		hours.
+		</t>
+    </section>
+
+    <section anchor="section:Deep-Packet-Inspection" title="Deep Packet Inspection: Centralized VoIP/VoLTE Security System">
+        <t>
+        A centralized VoIP/VoLTE security system can monitor each VoIP/VoLTE flow and manage VoIP/VoLTE security rules, according to the configuration of a VoIP/VoLTE security service called VoIP Intrusion Prevention System (IPS). This centralized VoIP/VoLTE security system controls each switch for the VoIP/VoLTE call flow management by manipulating the rules that can be added, deleted or modified dynamically.
+        </t>
+
+        <t>
+            The centralized VoIP/VoLTE security system can cooperate with a network firewall to realize VoIP/VoLTE security service. Specifically, a network firewall performs the basic security check of an unknown flow's packet observed by a switch. If the network firewall detects that the packet is an unknown VoIP call flow's packet that exhibits some suspicious patterns, then it triggers the VoIP/VoLTE security system for more specialized security analysis of the suspicious VoIP call packet.
+        </t>
+    </section>
+
+    <section anchor="section:Attack-Mitigation" title="Attack Mitigation: Centralized DDoS-attack Mitigation System">
+        <t>
+        A centralized DDoS-attack mitigation can manage each network resource and configure rules to each switch for DDoS-attack mitigation (called DDoS-attack Mitigator) on a common server. The centralized DDoS-attack mitigation system defends servers against DDoS attacks outside the private network, that is, from public networks
+		<xref target="RFC8612" /><xref target="RFC8811" />. 
+        </t>
+
+        <t>
+        Servers are categorized into stateless servers (e.g., DNS servers) and stateful servers 
+		(e.g., web servers). For DDoS-attack mitigation, the forwarding of traffic flows in 
+		switches can be dynamically configured such that malicious traffic flows are handled by 
+		the paths separated from normal traffic flows in order to minimize the impact of those 
+		malicious traffic on the servers. This flow path separation can be done by a flow 
+		forwarding path management scheme <xref target="RFC8811" /><xref target="AVANT-GUARD" />. 
+		This management should consider the load balance among the switches for the defense 
+		against DDoS attacks.
+        </t>
+		
+        <t>
+        So far this section has described the three use cases for network-based security services using the I2NSF framework with SDN networks.			
+		To support these use cases in the proposed data-driven security service framework, YANG data models described in <xref target="consumer-facing-inf-dm" />, <xref target="nsf-facing-inf-dm" />, and <xref target="registration-inf-dm" /> can be used as Consumer-Facing Interface, NSF-Facing Interface, and Registration Interface, respectively, along with RESTCONF <xref target="RFC8040" /> and NETCONF <xref target="RFC6241" />.
+        </t>
+
+	<t>
+	<figure anchor="figure:i2nsf-with-nfv" title="I2NSF Framework Implementation with respect to the NFV Reference Architectural Framework">
+         <artwork><![CDATA[
+                                                  +--------------------+
+   +-------------------------------------------+  | ----------------   |
+   |            I2NSF User (OSS/BSS)           |  | | NFV          |   |
+   +------+------------------------------------+  | | Orchestrator +-+ |
+          |  Consumer-Facing Interface            | -----+---------- | |
+   +------|------------------------------------+  |      |           | |
+   | -----+----------  (a)  -----------------  |  |  ----+-----      | |
+   | |  Security    +-------+  Developer's  |  |  |  |        |      | |
+   | |Controller(EM)|       |Mgmt System(EM)|  +-(b)-+ VNFM(s)|      | |
+   | -----+----------       -----------------  |  |  |        |      | |
+   |      |  NSF-Facing Interface              |  |  ----+-----      | |
+   |  ----+-----    ----+-----    ----+-----   |  |      |           | |
+   |  |NSF(VNF)|    |NSF(VNF)|    |NSF(VNF)|   |  |      |           | |
+   |  ----+-----    ----+-----    ----+-----   |  |      |           | |
+   |      |             |             |        |  |      |           | |
+   +------|-------------|-------------|--------+  |      |           | |
+          |             |             |           |      |           | |
+   +------+-------------+-------------+--------+  |      |           | |
+   |         NFV Infrastructure (NFVI)         |  |      |           | |
+   | -----------    -----------    ----------- |  |      |           | |
+   | | Virtual |    | Virtual |    | Virtual | |  |      |           | |
+   | | Compute |    | Storage |    | Network | |  |      |           | |
+   | -----------    -----------    ----------- |  |  ----+-----      | |
+   | +---------------------------------------+ |  |  |        |      | |
+   | |         Virtualization Layer          | +-----+ VIM(s) +------+ |
+   | +---------------------------------------+ |  |  |        |        |
+   | +---------------------------------------+ |  |  ----------        |
+   | | -----------  -----------  ----------- | |  |                    |
+   | | | Compute |  | Storage |  | Network | | |  |                    |
+   | | | Hardware|  | Hardware|  | Hardware| | |  |                    |
+   | | -----------  -----------  ----------- | |  |                    |
+   | |          Hardware Resources           | |  |   NFV Management   |
+   | +---------------------------------------+ |  | and Orchestration  |
+   |                                           |  |       (MANO)       |
+   +-------------------------------------------+  +--------------------+
+   (a) = Registration Interface
+   (b) = Ve-Vnfm Interface
+            ]]></artwork>
+    </figure>
+	</t>	
+		
+    </section>
+</section>
+
+<section anchor="section:I2NSF-Framework-with-NFV" title="I2NSF Framework with NFV">
+    <t>
+    This section discusses the implementation of the I2NSF framework using Network Functions Virtualization (NFV).
+    </t>
+
+    <t>
+    NFV is a promising technology for improving the elasticity and efficiency of network resource utilization. In NFV environments, NSFs can be deployed in the forms of software-based virtual instances rather than physical appliances. Virtualizing NSFs makes it possible to rapidly and flexibly respond to the amount of service requests by dynamically increasing or decreasing the number of NSF instances. Moreover, NFV technology facilitates flexibly including or excluding NSFs from multiple security solution vendors according to the changes on security requirements. In order to take advantages of the NFV technology, the I2NSF framework can be implemented on top of an NFV infrastructure as show in <xref target="figure:i2nsf-with-nfv" />.
+    </t>
+
+    <t>
+    <xref target="figure:i2nsf-with-nfv" /> shows an I2NSF framework implementation based on the NFV reference architecture that the European Telecommunications Standards Institute (ETSI) defines <xref target="ETSI-NFV" />. The NSFs are deployed as VNFs in <xref target="figure:i2nsf-with-nfv" />. The Developer's Management System (DMS) in the I2NSF framework is responsible for registering capability information of NSFs into the Security Controller. However, those NSFs are created or removed by a virtual network function manager (VNFM) in the NFV MANO that performs the lifecycle management of VNFs. 
+	Note that the lifecycle management of VNFs is out of scope for I2NSF.
+	The Security Controller controls and monitors the configurations (e.g., function parameters and security policy rules) of VNFs via the NSF-Facing Interface along with the NSF monitoring capability <xref target="nsf-facing-inf-dm" /><xref target="nsf-monitoring-dm" />.
+	Both the DMS and Security Controller can be implemented as the Element Managements (EMs) in the NFV architecture.
+Finally, the I2NSF User can be implemented as OSS/BSS (Operational Support Systems/Business Support Systems) in the NFV architecture that provides interfaces for users in the NFV system.
+    </t>
+
+        <t>
+        The operation procedure in the I2NSF framework based on the NFV architecture is as follows:
+        <list style="numbers">
+            <t>
+            The VNFM has a set of virtual machine (VM) images of NSFs, and each VM image can be used to create an NSF instance that provides a set of security capabilities. The DMS initially registers a mapping table of the ID of each VM image and the set of capabilities that can be provided by an NSF instance created from the VM image into the Security Controller.
+            </t>
+
+            <t>
+            If the Security Controller does not have any instantiated NSF that has the set of capabilities required to meet the security requirements from users, it searches the mapping table (registered by the DMS) for the VM image ID corresponding to the required set of capabilities.
+            </t>
+
+            <t>
+            The Security Controller requests the DMS to instantiate an NSF with the VM image ID via VNFM.
+            </t>
+
+            <t>
+            When receiving the instantiation request, the VNFM first asks the NFV orchestrator for the permission required to create the NSF instance, requests the VIM to allocate resources for the NSF instance, and finally creates the NSF instance based on the allocated resources.
+            </t>
+
+            <t>
+            Once the NSF instance has been created by the VNFM, the DMS performs the initial configurations of the NSF instance and then notifies the Security Controller of the NSF instance.
+            </t>
+            
+            <t>
+            After being notified of the created NSF instance, the Security Controller delivers low-level security policy rules to the NSF instance for policy enforcement.
+            </t>
+        </list>
+
+        We can conclude that the I2NSF framework can be implemented based on the NFV architecture framework. Note that the registration of the capabilities of NSFs is performed through the Registration Interface and the lifecycle management for NSFs (VNFs) is performed through the Ve-Vnfm interface between the DMS and VNFM, as shown in <xref target="figure:i2nsf-with-nfv" />.
+        </t>
+	
+</section>
+
+<section anchor="section:Security-Considerations" title="Security Considerations">
+	<t>	
+	The same security considerations for the I2NSF framework <xref target="RFC8329" /> are applicable to this document.
+	</t>
+
+	<t>
+	This document shares all the security issues of SDN that are specified in the "Security Considerations" section of <xref target="ITU-T.Y.3300" />.
+	</t>
+	
+	<t>
+	The role of the DMS is to provide an I2NSF system with the software packages or images for NSF execution.  The DMS must not access NSFs in activated status.  An inside attacker or a supply chain attacker at the DMS can seriously weaken the I2NSF system's security.  A malicious DMS is relevant to an insider attack, and a compromised DMS is relevant to a supply chain attack.  A malicious (or  compromised) DMS could register an NSF of its choice in response to a capability request by the Security Controller.  As a result, a malicious DMS can attack the I2NSF system by providing malicious NSFs with arbitrary capabilities to include potentially controlling those NSFs in real time. An unwitting DMS could be compromised and the infrastructure of the DMS could be coerced into distributing modified NSFs as well.
+	</t>
+
+	<t>
+	To deal with these types of threats, an I2NSF system should not use NSFs from an untrusted DMS or without prior testing.  The practices by which these packages are downloaded and loaded into the system are out of scope for I2NSF.
+	</t>
+
+	<t>
+	I2NSF system operators should audit and monitor interactions with DMSs.  Additionally, the operators should monitor the running NSFs through the I2NSF NSF Monitoring Interface <xref target="nsf-monitoring-dm" /> as part of the I2NSF NSF-Facing Interface.  Note that the mechanics for monitoring the DMSs are out of scope for I2NSF.		
+	</t>
+</section>
+
+<section anchor="section:IANA-Considerations" title="IANA Considerations">
+	<t>	
+    This document does not require any IANA actions.
+	</t>
+</section>
+
+</middle>
+
+<back>
+
+<!-- START: Normative References -->	
+<references title="Normative References">
+
+    <reference anchor="RFC8192">
+        <front>
+            <title>Interface to Network Security Functions (I2NSF): Problem Statement and Use Cases</title>
+            <author initials="S." surname="Hares" />
+            <author initials="D." surname="Lopez" />
+            <author initials="M." surname="Zarny" />
+            <author initials="C." surname="Jacquenet" />
+            <author initials="R." surname="Kumar" />
+            <author initials="J." surname="Jeong" />
+            <date month="July" year="2017" />
+        </front>
+        <seriesInfo name="RFC" value="8192" />
+    </reference>
+	
+    <reference anchor="RFC8329">
+        <front>
+            <title>Framework for Interface to Network Security Functions</title>
+            <author initials="D." surname="Lopez" />
+            <author initials="E." surname="Lopez" />
+            <author initials="L." surname="Dunbar" />
+            <author initials="J." surname="Strassner" />
+            <author initials="R." surname="Kumar" />
+            <date month="February" year="2018" />
+        </front>
+        <seriesInfo name="RFC" value="8329" />
+    </reference>
+
+    <reference anchor="RFC6020">
+        <front>
+            <title>YANG - A Data Modeling Language for the Network Configuration Protocol (NETCONF)</title>
+            <author initials="M." surname="Bjorklund" />
+            <date month="October" year="2010" />
+        </front>
+        <seriesInfo name="RFC" value="6020" />
+    </reference>
+
+    <reference anchor="RFC6241">
+        <front>
+            <title>Network Configuration Protocol (NETCONF)</title>
+            <author initials="R." surname="Enns" />
+            <author initials="M." surname="Bjorklund" />
+            <author initials="J." surname="Schoenwaelder" />
+            <author initials="A." surname="Bierman" />
+            <date month="June" year="2011" />
+        </front>
+        <seriesInfo name="RFC" value="6241" />
+    </reference>
+
+    <reference anchor="RFC8040">
+        <front>
+            <title>RESTCONF Protocol</title>
+            <author initials="A." surname="Bierman" />
+            <author initials="M." surname="Bjorklund" />
+            <author initials="K." surname="Watsen" />
+            <date month="January" year="2017" />
+        </front>
+        <seriesInfo name="RFC" value="8040" />
+    </reference>
+
+    <reference anchor="RFC7665">
+        <front>
+            <title>Service Function Chaining (SFC) Architecture</title>
+            <author initials="J." surname="Halpern" />
+            <author initials="C." surname="Pignataro" />
+            <date month="October" year="2015" />
+        </front>
+        <seriesInfo name="RFC" value="7665" />
+    </reference>
+
+    <reference anchor="RFC8446">
+        <front>
+            <title>The Transport Layer Security (TLS) Protocol Version 1.3</title>
+            <author initials="E." surname="Rescorla" />            
+            <date month="August" year="2018" />
+        </front>
+        <seriesInfo name="RFC" value="8446" />
+    </reference>
+	
+    <reference anchor="RFC8300">
+        <front>
+            <title>Network Service Header (NSH)</title>
+            <author initials="P." surname="Quinn" />
+            <author initials="U." surname="Elzur" />
+            <author initials="C." surname="Pignataro" />
+            <date month="January" year="2018" />
+        </front>
+        <seriesInfo name="RFC" value="8300" />
+    </reference>	
+	
+    <reference anchor="RFC7149">
+        <front>
+            <title>Software-Defined Networking: A Perspective from within a Service Provider Environment</title>
+            <author initials="M." surname="Boucadair" />
+            <author initials="C." surname="Jacquenet" />
+            <date month="March" year="2014" />
+        </front>
+        <seriesInfo name="RFC" value="7149" />
+    </reference>
+
+    <reference anchor="RFC8612">
+        <front>
+            <title>DDoS Open Threat Signaling (DOTS) Requirements</title>
+            <author initials="A." surname="Mortensen" />
+            <author initials="T." surname="Reddy" />
+			<author initials="R." surname="Moskowitz" />
+            <date month="May" year="2019" />
+        </front>
+        <seriesInfo name="RFC" value="8612" />
+    </reference>
+
+    <reference anchor="RFC8811">
+        <front>
+            <title>Distributed-Denial-of-Service Open Threat Signaling (DOTS) Architecture</title>
+            <author initials="A." surname="Mortensen" />
+            <author initials="T." surname="Reddy" />
+            <author initials="F." surname="Andreasen" />
+            <author initials="N." surname="Teague" />
+            <author initials="R." surname="Compton" />
+            <date month="March" year="2020" />
+        </front>
+        <seriesInfo name="RFC" value="8811" />
+    </reference>
+
+    <reference anchor="consumer-facing-inf-dm">
+        <front>
+            <title>I2NSF Consumer-Facing Interface YANG Data Model</title>
+            <author initials="J." surname="Jeong" />
+            <author initials="C." surname="Chung" />
+            <author initials="T." surname="Ahn" />
+            <author initials="R." surname="Kumar" />
+            <author initials="S." surname="Hares" />
+            <date month="May" year="2023" />
+        </front>
+        <seriesInfo name="Internet-Draft" value="draft-ietf-i2nsf-consumer-facing-interface-dm-31" />
+    </reference>
+
+    <reference anchor="nsf-monitoring-dm">
+        <front>
+            <title>I2NSF NSF Monitoring YANG Data Model</title>
+            <author initials="J." surname="Jeong" />
+            <author initials="P." surname="Lingga" />
+            <author initials="S." surname="Hares" />
+            <author initials="L." surname="Xia" />	
+			<author initials="H." surname="Birkholz" />	
+            <date month="June" year="2022" />
+        </front>
+        <seriesInfo name="Internet-Draft" value="draft-ietf-i2nsf-nsf-monitoring-data-model-20" />
+    </reference>	
+	
+    <reference anchor="nsf-facing-inf-dm">
+        <front>
+            <title>I2NSF Network Security Function-Facing Interface YANG Data Model</title>
+            <author initials="J." surname="Kim" />
+            <author initials="J." surname="Jeong" />
+            <author initials="J." surname="Park" />
+            <author initials="S." surname="Hares" />
+            <author initials="Q." surname="Lin" />
+            <date month="June" year="2022" />
+        </front>
+        <seriesInfo name="Internet-Draft" value="draft-ietf-i2nsf-nsf-facing-interface-dm-29" />
+    </reference>
+
+    <reference anchor="registration-inf-dm">
+        <front>
+            <title>I2NSF Registration Interface YANG Data Model for NSF Capability Registration</title>
+            <author initials="S." surname="Hyun" />
+            <author initials="J." surname="Jeong" />
+            <author initials="T." surname="Roh" />
+            <author initials="S." surname="Wi" />
+            <author initials="J." surname="Park" />
+            <date month="May" year="2023" />
+        </front>
+        <seriesInfo name="Internet-Draft" value="draft-ietf-i2nsf-registration-interface-dm-26" />
+    </reference>
+	
+    <reference anchor="ITU-T.Y.3300">
+        <front>
+            <title>Framework of Software-Defined Networking</title>
+            <author surname="Recommendation ITU-T Y.3300" />
+            <date month="June" year="2014" />
+        </front>
+        <seriesInfo name="Available:" value="https://www.itu.int/rec/T-REC-Y.3300-201406-I/en" />
+    </reference> 
+	
+    <reference anchor="ONF-SDN-Architecture">
+        <front>
+            <title>SDN Architecture (Issue 1.1)</title>
+            <author surname="ONF TR-521" />
+            <date month="June" year="2016" />
+        </front>
+		<seriesInfo name="Available:" value="https://opennetworking.org/wp-content/uploads/2014/10/TR-521_SDN_Architecture_issue_1.1.pdf" />		
+    </reference> 	
+
+    <reference anchor="NFV-Terminology">
+        <front>
+            <title>Network Functions Virtualisation (NFV); Terminology for Main Concepts in NFV</title>
+            <author surname="ETSI GR NFV 003 V1.7.1" />
+            <date month="January" year="2023" />
+        </front>
+        <seriesInfo name="Available:" value="https://www.etsi.org/deliver/etsi_gr/NFV/001_099/003/01.07.01_60/gr_NFV003v010701p.pdf" />		
+    </reference>	
+	
+    <reference anchor="ETSI-NFV">
+        <front>
+            <title>Network Functions Virtualisation (NFV); Architectural Framework</title>
+            <author surname="ETSI GS NFV 002 V1.2.1" />
+            <date month="December" year="2014" />
+        </front>
+        <seriesInfo name="Available:" value="https://www.etsi.org/deliver/etsi_gs/nfv/001_099/002/01.02.01_60/gs_nfv002v010201p.pdf" />		
+    </reference>
+
+    <reference anchor="AVANT-GUARD">
+        <front>
+            <title>AVANT-GUARD: Scalable and Vigilant Switch Flow Management in Software-Defined Networks</title>
+            <author initials="S." surname="Shin" />
+            <author initials="V." surname="Yegneswaran" />
+            <author initials="P." surname="Porras" />
+            <author initials="G." surname="Gu" />
+            <date month="November" year="2013" />
+        </front>
+        <seriesInfo name="ACM" value="CCS" />
+    </reference>
+
+</references>	
+<!-- END: Normative References -->	
+	
+<!-- START: Informative References -->	
+<references title="Informative References">
+
+    <reference anchor="SPT">
+        <front>
+            <title>SPT: Security Policy Translator for Network Security Functions in Cloud-Based Security Services</title>
+            <author initials="P." surname="Lingga" />
+            <author initials="J." surname="Jeong" />
+            <author initials="J." surname="Yang" />
+            <author initials="J." surname="Kim" />
+            <date month="November" year="2024" />
+        </front>
+        <seriesInfo name="DOI" value="https://doi.org/10.1109/TDSC.2024.3371788"/>
+        <refcontent>IEEE Transactions on Dependable and Secure Computing, Volume 21, Issue 6</refcontent>
+    </reference>
+
+    <reference anchor="tls-esni">
+        <front>
+            <title>TLS Encrypted Client Hello</title>
+            <author initials="E." surname="Rescorla" />
+            <author initials="K." surname="Oku" />
+            <author initials="N." surname="Sullivan" />
+            <author initials="C." surname="Wood" />
+            <date month="February" year="2025" />
+        </front>
+        <seriesInfo name="Internet-Draft" value="draft-ietf-tls-esni-23" />
+    </reference>
+	
+    <reference anchor="ITU-T.X.800">
+        <front>
+            <title>Security Architecture for Open Systems Interconnection for 
+	     CCITT Applications</title>
+            <author surname="Recommendation ITU-T X.800" />
+            <date month="March" year="1991" />
+        </front>
+        <seriesInfo name="Available:" value="https://www.itu.int/rec/T-REC-X.800-199103-I/en" />        
+    </reference>  
+
+    <reference anchor="opsawg-firewalls">
+        <front>
+            <title>On Firewalls in Internet Security</title>
+            <author initials="F." surname="Baker" />
+            <author initials="P." surname="Hoffman" />
+            <date month="October" year="2012" />
+        </front>
+        <seriesInfo name="Internet-Draft" value="draft-ietf-opsawg-firewalls-01" />
+    </reference>
+
+    <reference anchor="ETSI-NFV-MANO">
+        <front>
+            <title>Network Functions Virtualisation (NFV) Release 4; Management and Orchestration; Architectural Framework Specification</title>
+            <author surname="ETSI GS NFV 006 V4.4.1" />
+            <date month="December" year="2022" />
+        </front>
+        <seriesInfo name="Available:" value="https://www.etsi.org/deliver/etsi_gs/NFV/001_099/006/04.04.01_60/gs_NFV006v040401p.pdf" />     
+    </reference>
+
+    <reference anchor="VNF-ONBOARDING">
+        <front>
+            <title>Welcome to Open Source MANO's VNF Onboarding guide!</title>
+            <author surname="Open Source MANO" />
+            <date year="2019" />
+        </front>
+        <seriesInfo name="Available:" value="https://osm.etsi.org/docs/vnf-onboarding-guidelines/" />     
+    </reference>
+
+</references>
+<!-- END: Informative References -->	
+
+<section anchor="section:Acknowledgments" title="Acknowledgments">
+    <t>
+    This document is made by the group effort of I2NSF working group.
+    Many people actively contributed to this document, such as Linda Dunbar,
+    Yoav Nir, Roman Danyliw, and Patrick Lingga.
+    The authors sincerely appreciate their contributions.
+    </t>
+
+    <t>
+    This work was supported by Institute of Information &amp;
+	Communications Technology Planning &amp; Evaluation (IITP) grant funded by
+    the Korea Ministry of Science and ICT (MSIT)(No. R-20160222-002755, 
+	Cloud based Security Intelligence Technology Development for the Customized
+    Security Service Provisioning).
+    </t>
+	
+    <t>    
+    This work was supported in part by Institute of Information &amp;
+	Communications Technology Planning &amp; Evaluation (IITP) grant funded by
+	the Korea Ministry of Science and ICT (MSIT) (No. RS-2024-00398199, 
+	Standard Development of SDV Software Framework for Intelligent Convergence
+	Services).
+    </t>
+	
+    <t>
+    This work has been partially supported by the European Commission under
+    Horizon 2020 grant agreement no. 700199 "Securing against intruders and other
+    threats through a NFV-enabled environment (SHIELD)". This support does not
+    imply endorsement.
+    </t>   
+</section>
+
+<section anchor="section:Contributors" title="Contributors">
+    <t indent="0" pn="section-appendix">  
+    The following are coauthors of this document:
+    </t>  
+
+      <contact fullname="Jinyong Tim Kim">
+        <organization showOnFrontPage="true">Department of Electronic, Electrical and Computer Engineering</organization>
+        <address>
+          <postal>
+            <extaddr>Sungkyunkwan University</extaddr>
+            <street>2066 Seobu-ro, Jangan-gu</street>
+            <city>Suwon</city>
+            <region>Gyeonggi-do</region>
+            <code>16419</code>
+            <country>Republic of Korea</country>
+          </postal>
+          <phone>+82 31 299 4106</phone>
+          <email>timkim@skku.edu</email>
+        </address>
+      </contact>      
+      <contact fullname="Hyoungshick Kim">
+        <organization showOnFrontPage="true">Department of Computer Science and Engineering</organization>
+        <address>
+          <postal>
+            <extaddr>Sungkyunkwan University</extaddr>
+            <street>2066 Seobu-ro, Jangan-gu</street>
+            <city>Suwon</city>
+            <region>Gyeonggi-do</region>
+            <code>16419</code>
+            <country>Republic of Korea</country>
+          </postal>
+          <phone>+82 31 299 4324</phone>
+          <email>hyoung@skku.edu</email>
+        </address>
+      </contact>
+      <contact fullname="Jung-Soo Park">
+        <organization showOnFrontPage="true">Standards &amp; Open Source Research Division</organization>
+        <address>
+          <postal>
+            <extaddr>Electronics and Telecommunications Research Institute</extaddr>
+            <street>218 Gajeong-ro, Yuseong-gu,</street>
+            <region>Daejeon</region>
+            <code>34129</code>
+            <country>Republic of Korea</country>
+          </postal>
+          <phone>+82 42 860 6514</phone>
+          <email>pjs@etri.re.kr</email>
+        </address>
+      </contact>
+      <contact fullname="Hyunsik Yang">
+        <organization showOnFrontPage="true">School of Electronic Engineering</organization>
+        <address>
+          <postal>
+            <extaddr>Soongsil University</extaddr>
+            <street>369, Sangdo-ro, Dongjak-gu</street>
+            <region>Seoul</region>
+            <code>06978</code>
+            <country>Republic of Korea</country>
+          </postal>
+          <email>yangun@dcn.ssu.ac.kr</email>
+        </address>
+      </contact>
+      <contact fullname="Younghan Kim">
+        <organization showOnFrontPage="true">School of Electronic Engineering</organization>
+        <address>
+          <postal>
+            <extaddr>Soongsil University</extaddr>
+            <street>369, Sangdo-ro, Dongjak-gu</street>
+            <region>Seoul</region>
+            <code>06978</code>
+            <country>Republic of Korea</country>
+          </postal>
+          <email>younghak@ssu.ac.kr</email>
+        </address>
+      </contact>
+      <contact fullname="Sehui Lee">
+        <organization showOnFrontPage="true">KT</organization>
+        <address>
+          <postal>
+            <street>70 Yuseong-ro, Yuseong-gu</street>
+            <region>Daejeon</region>
+            <code>34047</code>
+            <country>Republic of Korea</country>
+          </postal>
+          <phone>+82 42 870 8162</phone>
+          <email>sehuilee@kt.com</email>
+        </address>
+      </contact>
+      <contact fullname="Mohamed Boucadair">
+        <organization showOnFrontPage="true">Orange</organization>
+        <address>
+          <postal>
+            <country>France</country>
+          </postal>
+          <email>mohamed.boucadair@orange.com</email>
+        </address>
+      </contact>
+</section>
+
+</back>
+
+<!-- <vspace blankLines="100"/> -->
+<!-- page break to put addresses onto one page-->
+
+</rfc>
