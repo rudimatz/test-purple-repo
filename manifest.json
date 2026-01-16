@@ -28,6 +28,35 @@
           "path": "final/notprepped"
         }
       ]
+    },
+	    {
+      "rfcNumber": 10102,
+      "files": [
+        {
+          "type": "xml",
+          "path": "final/rfc9844.xml"
+        },
+        {
+          "type": "txt",
+          "path": "final/draft-ietf-i2nsf-applicability-19.txt"
+        },
+        {
+          "type": "html",
+          "path": "final/differently-named.html"
+        },
+        {
+          "type": "pdf",
+          "path": "final/contents.txt.pdf"
+        },
+        {
+          "type": "json",
+          "path": "stuff.json"
+        },
+        {
+          "type": "notprepped",
+          "path": "final/notprepped"
+        }
+      ]
     }
   ]
 }
