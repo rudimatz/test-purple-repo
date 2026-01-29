@@ -1,6 +1,15 @@
 {
     "publications": [
         {
+            "rfcNumber": 9888,
+            "files": [
+                {
+                    "type": "xml",
+                    "path": "final/draft-ietf-stir-servprovider-oob-08.xml"
+                }
+            ]
+        },
+        {
             "rfcNumber": 9918,
             "files": [
                 {
