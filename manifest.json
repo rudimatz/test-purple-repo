@@ -1,62 +1,98 @@
 {
-  "publications": [
-    {
-      "rfcNumber": 10101,
-      "files": [
+    "publications": [
         {
-          "type": "xml",
-          "path": "final/draft-ietf-i2nsf-applicability-19.xml"
+            "rfcNumber": 9918,
+            "files": [
+                {
+                    "type": "xml",
+                    "path": "final/draft-ietf-netconf-over-tls13-04.xml"
+                }
+            ]
         },
         {
-          "type": "txt",
-          "path": "final/draft-ietf-i2nsf-applicability-19.txt"
+            "rfcNumber": 9916,
+            "files": [
+                {
+                    "type": "xml",
+                    "path": "final/draft-ietf-pce-pceps-tls13-04.xml"
+                }
+            ]
         },
         {
-          "type": "html",
-          "path": "final/differently-named.html"
+            "rfcNumber": 9915,
+            "files": [
+                {
+                    "type": "xml",
+                    "path": "final/draft-ietf-dhc-rfc8415bis-12.xml"
+                }
+            ]
         },
         {
-          "type": "pdf",
-          "path": "final/contents.txt.pdf"
+            "rfcNumber": 9880,
+            "files": [
+                {
+                    "type": "xml",
+                    "path": "final/draft-ietf-asdf-sdf-25.xml"
+                }
+            ]
         },
         {
-          "type": "json",
-          "path": "stuff.json"
+            "rfcNumber": 10101,
+            "files": [
+                {
+                    "type": "xml",
+                    "path": "final/draft-ietf-i2nsf-applicability-19.xml"
+                },
+                {
+                    "type": "txt",
+                    "path": "final/draft-ietf-i2nsf-applicability-19.txt"
+                },
+                {
+                    "type": "html",
+                    "path": "final/differently-named.html"
+                },
+                {
+                    "type": "pdf",
+                    "path": "final/contents.txt.pdf"
+                },
+                {
+                    "type": "json",
+                    "path": "stuff.json"
+                },
+                {
+                    "type": "notprepped",
+                    "path": "final/notprepped"
+                }
+            ]
         },
         {
-          "type": "notprepped",
-          "path": "final/notprepped"
+            "rfcNumber": 9844,
+            "files": [
+                {
+                    "type": "xml",
+                    "path": "final/rfc9844.xml"
+                },
+                {
+                    "type": "txt",
+                    "path": "final/draft-ietf-i2nsf-applicability-19.txt"
+                },
+                {
+                    "type": "html",
+                    "path": "final/differently-named.html"
+                },
+                {
+                    "type": "pdf",
+                    "path": "final/contents.txt.pdf"
+                },
+                {
+                    "type": "json",
+                    "path": "stuff.json"
+                },
+                {
+                    "type": "notprepped",
+                    "path": "final/notprepped"
+                }
+            ]
         }
-      ]
-    },
-	    {
-      "rfcNumber": 9844,
-      "files": [
-        {
-          "type": "xml",
-          "path": "final/rfc9844.xml"
-        },
-        {
-          "type": "txt",
-          "path": "final/draft-ietf-i2nsf-applicability-19.txt"
-        },
-        {
-          "type": "html",
-          "path": "final/differently-named.html"
-        },
-        {
-          "type": "pdf",
-          "path": "final/contents.txt.pdf"
-        },
-        {
-          "type": "json",
-          "path": "stuff.json"
-        },
-        {
-          "type": "notprepped",
-          "path": "final/notprepped"
-        }
-      ]
-    }
-  ]
+    ]
 }
