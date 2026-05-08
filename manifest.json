@@ -1,3 +1,21 @@
 {
-  "publications": []
+    "publications": [
+        {
+            "rfcNumber": 9956,
+            "files": [
+                {
+                    "path": "rfc9956.notprepped.xml",
+                    "type": "notprepped"
+                },
+                {
+                    "path": "rfc9956.pdf",
+                    "type": "pdf"
+                },
+                {
+                    "path": "rfc9956.xml",
+                    "type": "xml"
+                }
+            ]
+        }
+    ]
 }
