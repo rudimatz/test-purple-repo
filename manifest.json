@@ -1,21 +1,29 @@
 {
-    "publications": [
+  "publications": [
+    {
+      "rfcNumber": 9956,
+      "files": [
         {
-            "rfcNumber": 9956,
-            "files": [
-                {
-                    "path": "rfc9956.notprepped.xml",
-                    "type": "notprepped"
-                },
-                {
-                    "path": "rfc9956.pdf",
-                    "type": "pdf"
-                },
-                {
-                    "path": "rfc9956.xml",
-                    "type": "xml"
-                }
-            ]
+          "path": "rfc9956.html",
+          "type": "html"
+        },
+        {
+          "path": "rfc9956.notprepped.xml",
+          "type": "notprepped"
+        },
+        {
+          "path": "rfc9956.pdf",
+          "type": "pdf"
+        },
+        {
+          "path": "rfc9956.txt",
+          "type": "txt"
+        },
+        {
+          "path": "rfc9956.xml",
+          "type": "xml"
         }
-    ]
+      ]
+    }
+  ]
 }
