@@ -16,10 +16,6 @@
           "type": "pdf"
         },
         {
-          "path": "rfc9956.txt",
-          "type": "txt"
-        },
-        {
           "path": "rfc9956.xml",
           "type": "xml"
         }
